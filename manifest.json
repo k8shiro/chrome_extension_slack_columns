@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "Chrome Extension Trainning",
+    "short_name": "CET",
+    "version": "0.0.0",
+    "description": "a extention for Google Chrome",
+    "icons": {
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "19": "icons/icon-19.png"
+        },
+        "default_title": "Ext title",
+        "default_popup": "src/popup.html"
+    },
+    "content_scripts": [{
+        "matches": ["https://app.slack.com/client/*" ],
+        "js": ["src/content.js"]
+    }],
+    "permissions": [
+        "storage"
+    ],
+    "homepage_url": "https://github.com/k8shiro/chrome_extension_training"
+}
