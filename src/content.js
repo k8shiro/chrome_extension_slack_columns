@@ -3,11 +3,16 @@ lines = []
 window.onload = function() {
     let originUrl = location.href ;
     let body = document.body;
-    body.innerHTML = `
-        <div id="wrapper">
-            <div id="originLine" style="width:100%;" ><iframe src="${originUrl}" id="origin"></div>
-        </div>
-    `;
+    body.setAttribute("id", "origin")
+    let newBody = document.createElement('body');
+    newBody.appendChild(body)
+    newBody.style.display = "flex"
+
+    let wrapper = document.createElement('div');
+    wrapper.setAttribute("id", "wrapper")
+    newBody.appendChild(wrapper)
+
+    document.documentElement.appendChild(newBody)
 
     chrome.storage.sync.get(
         {channels: []},
@@ -29,8 +34,13 @@ function addLine(lineId, lineUrl) {
     document.getElementById("wrapper").appendChild(element)
     document.getElementById(lineId).addEventListener("load", function(){ iframeLoaded(lineId) });
 
-    let lineWidth = 100 / (lines.length+2);
-    document.getElementById("originLine").style.width = String(lineWidth*2) + '%'
+    document.getElementsByClassName("p-client")[0].style.width = '100%';
+    let originWidth = 100 / (lines.length + 2) * 2;
+    let wrapperWidth = 100 / (lines.length + 2) * lines.length;
+    document.getElementById("origin").style.width = String(originWidth) + '%'
+    document.getElementById("wrapper").style.width = String(wrapperWidth) + '%'
+
+    lineWidth = 100 / (lines.length);
     for (let element of document.getElementsByClassName('element')) {
         element.style.width = String(lineWidth) + '%'
     }
