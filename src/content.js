@@ -1,6 +1,11 @@
 lines = []
 
 window.onload = function() {
+    saveOriginDOM();
+    chrome.storage.sync.get( {channels: []}, (channels)=>{ addLines(channels) });
+};
+
+function saveOriginDOM() {
     let originUrl = location.href ;
     let body = document.body;
     body.setAttribute("id", "origin")
@@ -13,28 +18,17 @@ window.onload = function() {
     newBody.appendChild(wrapper)
 
     document.documentElement.appendChild(newBody)
+}
 
-    chrome.storage.sync.get(
-        {channels: []},
-        function(channels) {
-            for(let i = 0; i < channels['channels'].length; i++) {
-                addLine('channel'+String(i), channels['channels'][i])
-            }
-        }
-    );
-};
+async function addLines(channels) {
+    let p = Promise.resolve();
+    for(let i = 0; i < channels['channels'].length; i++) {
+        let lineId = 'channel'+String(i)
+        let lineUrl = channels['channels'][i]
+        lines.push(lineId)
+        await addLine(lineId, lineUrl)
+    }
 
-function addLine(lineId, lineUrl) {
-    lines.push(lineId)
-
-    let element = document.createElement('div');
-    element.setAttribute('class', 'element');
-    element.innerHTML = `<iframe src="${lineUrl}" id="${lineId}">`
-
-    document.getElementById("wrapper").appendChild(element);
-    document.getElementById(lineId).addEventListener("load", () => { iframeLoaded(lineId) });
-
-    //document.getElementsByClassName("p-client")[0].style.width = '100%';
     let originWidth = 100 / (lines.length + 2) * 2;
     let wrapperWidth = 100 / (lines.length + 2) * lines.length;
     document.getElementById("origin").style.width = String(originWidth) + '%';
@@ -47,6 +41,21 @@ function addLine(lineId, lineUrl) {
 
     fixSlackDom();
 }
+
+function addLine(lineId, lineUrl) {
+    return new Promise(resolve =>{
+        setTimeout(()=>{
+            let element = document.createElement('div');
+            element.setAttribute('class', 'element');
+            element.innerHTML = `<iframe src="${lineUrl}" id="${lineId}">`
+
+            document.getElementById("wrapper").appendChild(element);
+            document.getElementById(lineId).addEventListener("load", () => { iframeLoaded(lineId) });
+            resolve();
+        }, 100)
+    })
+}
+
 
 function fixSlackDom() {
     Promise.wait = (time) => new Promise(resolve => setTimeout(resolve, time || 0));
