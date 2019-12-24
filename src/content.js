@@ -47,9 +47,13 @@ function addLine(lineId, lineUrl) {
         setTimeout(()=>{
             let element = document.createElement('div');
             element.setAttribute('class', 'element');
-            element.innerHTML = `<iframe src="${lineUrl}" id="${lineId}">`
-
             document.getElementById("wrapper").appendChild(element);
+
+            let iframe = document.createElement("iframe");
+            iframe.setAttribute("id", lineId)
+            iframe.setAttribute("src", lineUrl);
+            element.appendChild(iframe)
+            
             document.getElementById(lineId).addEventListener("load", () => { iframeLoaded(lineId) });
             resolve();
         }, 100)
