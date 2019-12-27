@@ -13,7 +13,7 @@
         "default_icon": {
             "19": "icons/icon-19.png"
         },
-        "default_title": "Ext title",
+        "default_title": "Slack ColumnsF",
         "default_popup": "src/popup.html"
     },
     "content_scripts": [{
