@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Slack Columns",
     "short_name": "SC",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "a extension for Google Chrome",
     "icons": {
         "32": "icons/icon-32.png",
