@@ -3,7 +3,7 @@
     "name": "Slack Columns",
     "short_name": "SC",
     "version": "1.0.1",
-    "description": "Google Chrome Extension for Slack Page",
+    "description": "Display multiple channels side by side. 複数チャンネルを並べて表示することができます。",
     "icons": {
         "32": "icons/icon-32.png",
         "48": "icons/icon-48.png",
